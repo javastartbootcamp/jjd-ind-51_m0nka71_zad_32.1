@@ -83,9 +83,9 @@ public class ExampleTest {
                 List.of(new Expense(2L, "Burger", new BigDecimal("39.99"), ExpenseType.FOOD)));
         groupedExpensesList.put(new User(3L, "Ada", 22),
                 List.of(new Expense(3L, "Koktajl Owocowy", new BigDecimal("19.79"), ExpenseType.FOOD)));
-        groupedExpensesList.put(new User(5L, "Alex", 14),
+        groupedExpensesList.put(new User(5L, "Alex", 13),
                 List.of(new Expense(5L, "Hamulce", new BigDecimal("200"), ExpenseType.CAR)));
-        groupedExpensesList.put(new User(1L, "Robert", 22),
+        groupedExpensesList.put(new User(1L, "Robert", 20),
                 List.of(new Expense(1L, "Kapelusz", new BigDecimal("49.99"), ExpenseType.WEAR)));
         //when
         Map<User, List<Expense>> correctGroupedList = streamsTask.groupExpensesByUser(users, expenses);
