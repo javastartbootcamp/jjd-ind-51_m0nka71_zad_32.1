@@ -31,7 +31,7 @@ public class StreamsTask {
         Collection<User> women = findWomen(users);
         Double averageMenAge = averageMenAge(users);
         Map<Long, List<Expense>> expensesByUserId = groupExpensesByUserId(users, expenses);
-//        Map<User, List<Expense>> expensesByUser = groupExpensesByUser(users, expenses);
+        Map<User, List<Expense>> expensesByUser = groupExpensesByUser(users, expenses);
     }
 
     // metoda powinna zwracać listę kobiet (sprawdzając, czy imię kończy się na "a")
@@ -51,16 +51,15 @@ public class StreamsTask {
     // metoda powinna zwracać wydatki zgrupowane po ID użytkownika
     Map<Long, List<Expense>> groupExpensesByUserId(Collection<User> users, List<Expense> expenses) {
         return expenses.stream()
-                .filter(expense -> users.stream().anyMatch(user -> Objects.equals(user.getId(), expense.getUserId())))
                 .collect(Collectors.groupingBy(Expense::getUserId));
     }
 
     // metoda powinna zwracać wydatki zgrupowane po użytkowniku
     // podobne do poprzedniego, ale trochę trudniejsze
-//    Map<User, List<Expense>> groupExpensesByUser(Collection<User> users, List<Expense> expenses) {
-//
-//        return expenses.stream()
-//                .filter(expense -> users.stream().anyMatch(user -> Objects.equals(user.getId(), expense.getUserId())))
-//                .collect(Collectors.groupingBy(User -> User));
-//    }
+    Map<User, List<Expense>> groupExpensesByUser(Collection<User> users, List<Expense> expenses) {
+        Map<Long, User> userMap = users.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
+        return expenses.stream()
+                .collect(Collectors.groupingBy(expense -> userMap.get(expense.getUserId())));
+    }
 }
