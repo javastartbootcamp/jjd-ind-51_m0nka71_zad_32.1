@@ -1,10 +1,8 @@
 package pl.javastart.streamstask;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StreamsTask {
 
@@ -38,22 +36,30 @@ public class StreamsTask {
 
     // metoda powinna zwracać listę kobiet (sprawdzając, czy imię kończy się na "a")
     Collection<User> findWomen(Collection<User> users) {
-        throw new RuntimeException("Not implemented");
+        return users.stream()
+                .filter(n -> n.getName().endsWith("a"))
+                .collect(Collectors.toList());
     }
 
     // metoda powinna zwracać średni wiek mężczyzn (sprawdzając, czy imię nie kończy się na "a")
     Double averageMenAge(Collection<User> users) {
-        throw new RuntimeException("Not implemented");
+        return users.stream()
+                .filter(user -> !user.getName().endsWith("a"))
+                .collect(Collectors.averagingInt(User::getAge));
     }
 
     // metoda powinna zwracać wydatki zgrupowane po ID użytkownika
     Map<Long, List<Expense>> groupExpensesByUserId(Collection<User> users, List<Expense> expenses) {
-        throw new RuntimeException("Not implemented");
+        return expenses.stream()
+                .collect(Collectors.groupingBy(Expense::getUserId));
     }
 
     // metoda powinna zwracać wydatki zgrupowane po użytkowniku
     // podobne do poprzedniego, ale trochę trudniejsze
     Map<User, List<Expense>> groupExpensesByUser(Collection<User> users, List<Expense> expenses) {
-        throw new RuntimeException("Not implemented");
+        Map<Long, User> userMap = users.stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
+        return expenses.stream()
+                .collect(Collectors.groupingBy(expense -> userMap.get(expense.getUserId())));
     }
 }
